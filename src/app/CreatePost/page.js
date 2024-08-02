@@ -1,29 +1,10 @@
-import List from "@/component/list/list";
-import axios from "axios";
+import PostForm from "@/component/postForm/postForm";
 import Head from "next/head";
 
-async function getData(queryParam) {
-  let page = 1;
-  let totalPage = 0;
-  const result = await axios.get('https://jsonplaceholder.typicode.com/posts');
-  let data = JSON.parse(JSON.stringify(result.data));
-  if (queryParam.page !== null && queryParam.page !== undefined) {
-    page = Number(queryParam.page);
-  }
-  if (data.length === 0) {
-    totalPage = 0;
-    page = 0;
-  } else if (data.length > 15) {
-    totalPage = Math.ceil(data.length / 15);
-    data = data.slice(((page * 15) - 15), (page * 15));
-  }
-    return { data, totalPage, page };
-  }
-  export default async function Home({ searchParams }) {
-    const { data, totalPage, page } = await getData(searchParams);
+export default function CreatePost() {
     return (
-      <section>
-                    <Head>
+        <>
+            <Head>
                 <title>Insightful Bytes - Exploring the Latest in Technology and Digital Trends</title>
                 <meta name="description" content={''} />
                 <meta property="og:title" content={'Insightful Bytes - Exploring the Latest in Technology and Digital Trends'} />
@@ -31,11 +12,13 @@ async function getData(queryParam) {
                 <meta property="og:type" content="website" />
                 <meta property="og:site_name" content="paradisehubBlog" />
                 <meta property="og:image" content="https://paradisehub.ir/favicon.png" />
-                <meta property="og:url" content={"http://localhost:3000/"} />
+                <meta property="og:url" content={"http://localhost:3000/create-post"} />
                 <meta property="og:local" content="en" />
-                <link rel="canonical" href={"http://localhost:3000/"} />
+                <link rel="canonical" href={"http://localhost:3000/create-post"} />
             </Head>
-        <List data={data} totalPage={totalPage} page={page}/>
-      </section>
+            <section>
+                <PostForm/>
+            </section>
+        </>
     );
-  }
+}
